@@ -125,6 +125,7 @@ GameObject:
   - component: {fileID: 145753337}
   - component: {fileID: 145753336}
   - component: {fileID: 145753335}
+  - component: {fileID: 145753340}
   m_Layer: 10
   m_Name: Little
   m_TagString: Player
@@ -147,10 +148,8 @@ MonoBehaviour:
   inputJump: joystick 3 button 3
   playerName: LittlePlayer
   onGround: 1
-  speed: 100
-  groundSpeed: 100
+  speed: 10000
   jumpForce: 10
-  airBufferDivider: 0.2
 --- !u!61 &145753336
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -231,7 +230,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: b33ea348e20cf7c43bcc9489dae47bb6, type: 3}
-  m_Color: {r: 0.94482756, g: 1, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -253,6 +252,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &145753340
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 145753334}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: de54000c3c4d1b64fb7a21856667fea0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &231206415
 GameObject:
   m_ObjectHideFlags: 0
@@ -1145,6 +1161,7 @@ GameObject:
   - component: {fileID: 1326584499}
   - component: {fileID: 1326584502}
   - component: {fileID: 1326584503}
+  - component: {fileID: 1326584504}
   m_Layer: 8
   m_Name: Big
   m_TagString: Player
@@ -1207,7 +1224,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: b33ea348e20cf7c43bcc9489dae47bb6, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1269,10 +1286,25 @@ MonoBehaviour:
   inputJump: joystick 1 button 3
   playerName: BigPlayer
   onGround: 1
-  speed: 100
-  groundSpeed: 100
+  speed: 10000
   jumpForce: 10
-  airBufferDivider: 0.2
+--- !u!95 &1326584504
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1326584498}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 54f1ed0ff3ce40940ab44ef40cc1771f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &1360553337
 GameObject:
   m_ObjectHideFlags: 0
@@ -1582,6 +1614,7 @@ GameObject:
   - component: {fileID: 1809642128}
   - component: {fileID: 1809642127}
   - component: {fileID: 1809642126}
+  - component: {fileID: 1809642131}
   m_Layer: 9
   m_Name: Medium
   m_TagString: Player
@@ -1604,10 +1637,8 @@ MonoBehaviour:
   inputJump: joystick 2 button 3
   playerName: MediumPlayer
   onGround: 1
-  speed: 100
-  groundSpeed: 100
+  speed: 10000
   jumpForce: 10
-  airBufferDivider: 0.2
 --- !u!61 &1809642127
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1688,7 +1719,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: b33ea348e20cf7c43bcc9489dae47bb6, type: 3}
-  m_Color: {r: 0, g: 0.21379304, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1710,6 +1741,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1809642131
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1809642125}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 02eba2f4570c8f44698ad95e13c5d145, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &1941732207
 GameObject:
   m_ObjectHideFlags: 0

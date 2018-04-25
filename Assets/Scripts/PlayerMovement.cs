@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
+	private Animator animator;
+
 	public string inputHorizontal;
 	public string inputJump;
 	public string playerName;
@@ -12,18 +14,14 @@ public class PlayerMovement : MonoBehaviour {
 	private Rigidbody2D rbPlayer;
 	private float fadeSpeed;
 	public float speed;
-	public float groundSpeed;
+	private float actualSpeed;
 	public float jumpForce;
-	private Vector2 previousPosition;
-	public float airBufferDivider = 1f;
 
 	// Use this for initialization
 	void Start () {
 		rbPlayer = GetComponent<Rigidbody2D> ();
-		previousPosition = transform.position;
-		foreach (string joystick in Input.GetJoystickNames()) {
-			Debug.Log (joystick);
-		}
+		animator = GetComponent<Animator> ();
+		actualSpeed = speed;
 	}
 
 	// Update is called once per frame
@@ -83,45 +81,39 @@ public class PlayerMovement : MonoBehaviour {
 
 	void Moving ()
 	{
-		float translation = 0f;
-		float straffe = 0f;
+		float straffe = 0f; 
 
-		/*if (onGround) 
-		{*/
-			straffe = Input.GetAxis (inputHorizontal) * (((speed * fadeSpeed)*groundSpeed));
-			translation *= Time.deltaTime;
-			straffe *= Time.deltaTime;
-			//transform.Translate(straffe, 0.0f, translation);
+		straffe = Input.GetAxis (inputHorizontal);
+		if (straffe > 0) {
+			transform.localScale = new Vector2 (1.0f, 1.0f);
+			actualSpeed = speed;
+		}
+		if (straffe < 0) {
+			transform.localScale = new Vector2 (-1.0f, 1.0f);
+			actualSpeed = -speed;
+		}
+		straffe *= actualSpeed;
+		straffe *= Time.deltaTime;
 
-			Vector2 force = new Vector3 (straffe, 0.0f, translation);
-			force = transform.localToWorldMatrix.MultiplyVector (force);
-			rbPlayer.AddForce (force, ForceMode2D.Force);
 
-			Vector2 v = rbPlayer.velocity;
-			v.x = 0f;
-			rbPlayer.velocity = v;
-
-			if (fadeSpeed < 1.1f)
-			{
-				fadeSpeed += 0.1f;
-			}
-
-			if (translation == 0 && straffe == 0 )
-			{
-				fadeSpeed = 0.5f;
-			}
-		/*}
+		if (straffe == 0) 
+		{
+			animator.SetBool("Walking", false);
+		} 
 		else 
 		{
-			straffe = Input.GetAxis (inputHorizontal) * speed;
-			straffe *= Time.deltaTime;
-			float airControlBuffer = CalculateAirControlBuffer (translation, straffe);
-			Vector2 force = new Vector2 (straffe * airControlBuffer, 0.0f);
-			force = transform.localToWorldMatrix.MultiplyVector (force);
-			rbPlayer.AddForce (force, ForceMode2D.Force);
-		}*/
+			animator.SetBool("Walking", true);
+		}
 
-		previousPosition = transform.position;
+
+
+		Vector2 force = new Vector2 (straffe, 0.0f);
+		force = transform.localToWorldMatrix.MultiplyVector (force);
+		rbPlayer.AddForce (force, ForceMode2D.Force);
+
+		Vector2 v = rbPlayer.velocity;
+		v.x = 0f;
+		rbPlayer.velocity = v;
 	}
 
 	void Jumping ()
@@ -130,20 +122,5 @@ public class PlayerMovement : MonoBehaviour {
 		{
 			rbPlayer.velocity = new Vector2 (rbPlayer.velocity.x, jumpForce);
 		}
-	}
-
-	float CalculateAirControlBuffer (float translation, float straffe)
-	{
-		Vector2 currentDirection = new Vector2 (transform.position.x - previousPosition.x, transform.position.y - previousPosition.y);
-		currentDirection = new Vector2 (currentDirection.x, 0f);
-		Vector2 direction = new Vector2 (straffe, 0f);
-		direction = transform.TransformDirection (direction);
-		float angle = Vector2.Angle (currentDirection, direction);
-		if (angle > 30) {
-			float airControlBuffer = 1 + (angle / airBufferDivider);
-			//Debug.Log (angle);
-			return airControlBuffer;
-		}
-		return 1.0f;
 	}
 }
