@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BigController : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour {
+	public string inputHorizontal;
+	public string inputJump;
+	public string playerName;
 
 	public bool onGround;
 
@@ -18,11 +21,14 @@ public class BigController : MonoBehaviour {
 	void Start () {
 		rbPlayer = GetComponent<Rigidbody2D> ();
 		previousPosition = transform.position;
+		foreach (string joystick in Input.GetJoystickNames()) {
+			Debug.Log (joystick);
+		}
 	}
-	
-	// Update is called once per frame
-	void Update () {
 
+	// Update is called once per frame
+	void Update () 
+	{
 		GroundChecking ();
 
 		Jumping ();
@@ -30,7 +36,6 @@ public class BigController : MonoBehaviour {
 
 	void FixedUpdate()
 	{
-
 		Moving ();
 	}
 
@@ -54,10 +59,9 @@ public class BigController : MonoBehaviour {
 		{
 			Vector2 rayStartPoint = physicsCentre + new Vector2 (j * 0.49f, 0f);
 			Debug.DrawRay (rayStartPoint, Vector2.down*0.6f, Color.red, 0.25f);
-			int layerMask = ~(LayerMask.GetMask("BigPlayer"));
+			int layerMask = ~(LayerMask.GetMask(playerName));
 			RaycastHit2D hit = Physics2D.Raycast (rayStartPoint, Vector2.down, 0.6f, layerMask);
-
-			if ( hit.collider != null) 
+			if ( hit.collider != null && hit.collider.tag != playerName) 
 			{
 				onGround = true;
 				break;
@@ -66,6 +70,7 @@ public class BigController : MonoBehaviour {
 			{
 				onGround = false;
 			}
+
 			j += 0.33f;
 		}
 
@@ -76,14 +81,14 @@ public class BigController : MonoBehaviour {
 		}
 	}
 
-	private void Moving ()
+	void Moving ()
 	{
 		float translation = 0f;
 		float straffe = 0f;
 
-		if (onGround) 
-		{
-			straffe = Input.GetAxisRaw ("Horizontal") * (((speed * fadeSpeed)*groundSpeed));
+		/*if (onGround) 
+		{*/
+			straffe = Input.GetAxis (inputHorizontal) * (((speed * fadeSpeed)*groundSpeed));
 			translation *= Time.deltaTime;
 			straffe *= Time.deltaTime;
 			//transform.Translate(straffe, 0.0f, translation);
@@ -105,29 +110,29 @@ public class BigController : MonoBehaviour {
 			{
 				fadeSpeed = 0.5f;
 			}
-		}
+		/*}
 		else 
 		{
-			straffe = Input.GetAxis ("Horizontal") * speed;
+			straffe = Input.GetAxis (inputHorizontal) * speed;
 			straffe *= Time.deltaTime;
 			float airControlBuffer = CalculateAirControlBuffer (translation, straffe);
 			Vector2 force = new Vector2 (straffe * airControlBuffer, 0.0f);
 			force = transform.localToWorldMatrix.MultiplyVector (force);
 			rbPlayer.AddForce (force, ForceMode2D.Force);
-		}
+		}*/
 
 		previousPosition = transform.position;
 	}
 
 	void Jumping ()
 	{
-		if (Input.GetButtonDown ("Jump") && onGround) 
+		if (Input.GetKeyDown(inputJump) && onGround) 
 		{
 			rbPlayer.velocity = new Vector2 (rbPlayer.velocity.x, jumpForce);
 		}
 	}
 
-	private float CalculateAirControlBuffer (float translation, float straffe)
+	float CalculateAirControlBuffer (float translation, float straffe)
 	{
 		Vector2 currentDirection = new Vector2 (transform.position.x - previousPosition.x, transform.position.y - previousPosition.y);
 		currentDirection = new Vector2 (currentDirection.x, 0f);
