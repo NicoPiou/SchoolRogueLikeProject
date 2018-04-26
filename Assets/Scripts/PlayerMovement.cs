@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
+
 	private Animator animator;
 
 	public string inputHorizontal;
@@ -16,6 +17,12 @@ public class PlayerMovement : MonoBehaviour {
 	public float speed;
 	private float actualSpeed;
 	public float jumpForce;
+	private int jumpCounter = 2;
+
+	public bool isThief;
+	private bool doubleWalljumpCounter;
+	[Range (0.0f, 1.0f)] public float angleAttaque = 0.5f;
+	public float wallJumpReduction;
 
 	// Use this for initialization
 	void Start () {
@@ -29,7 +36,15 @@ public class PlayerMovement : MonoBehaviour {
 	{
 		GroundChecking ();
 
-		Jumping ();
+
+		if (isThief) 
+		{
+			DoubleJumping ();
+		} 
+		else 
+		{
+			Jumping ();
+		}
 	}
 
 	void FixedUpdate()
@@ -75,6 +90,7 @@ public class PlayerMovement : MonoBehaviour {
 
 		if (!wasOnGround && onGround) 
 		{
+			jumpCounter = 2;
 			//sound Atterrissage
 		}
 	}
@@ -123,4 +139,62 @@ public class PlayerMovement : MonoBehaviour {
 			rbPlayer.velocity = new Vector2 (rbPlayer.velocity.x, jumpForce);
 		}
 	}
+
+	void DoubleJumping ()
+	{
+		if (Input.GetKeyDown(inputJump) && jumpCounter > 0) 
+		{
+			rbPlayer.velocity = new Vector2 (rbPlayer.velocity.x, jumpForce);
+			jumpCounter--;
+		}
+	}
+
+	/*private void WallJumping()
+	{
+		Vector2 physicsCentre = new Vector2 (this.transform.position.x + this.GetComponent<BoxCollider2D> ().offset.x, this.transform.position.y + this.GetComponent<BoxCollider2D> ().offset.y);
+
+		float j = -1f;
+		for (int i = 0; i < 7; i++) 
+		{
+			Vector2 rayStartPoint = physicsCentre + new Vector2 (0f, j * 0.49f);
+			Debug.DrawRay (rayStartPoint, Vector2.right*0.6f, Color.red, 0.25f);
+			int layerMask = ~(LayerMask.GetMask(playerName));
+			RaycastHit2D hit = Physics2D.Raycast (rayStartPoint, Vector2.right, 0.6f, layerMask);
+			if (hit != null && Input.GetKeyDown(inputJump) && hit.normal.y < angleAttaque && !onGround && !doubleWalljumpCounter) 
+			{
+				Vector2 v = rbPlayer.velocity;
+				v.y = 0f;
+				rbPlayer.velocity = v;
+				rbPlayer.velocity = new Vector2 (rbPlayer.velocity.x, jumpForce);
+				rbPlayer.AddForce (hit.normal * speed / wallJumpReduction, ForceMode2D.Force);
+				//doubleWalljumpCounter = true;
+				//source.PlayOneShot (jumpSound, 1.0f);
+				break;
+			}
+
+			j += 0.33f;
+		}
+
+		float h = -1f;
+		for (int i = 0; i < 7; i++) 
+		{
+			Vector2 rayStartPoint = physicsCentre + new Vector2 (0f, h * 0.49f);
+			Debug.DrawRay (rayStartPoint, Vector2.left*0.6f, Color.red, 0.25f);
+			int layerMask = ~(LayerMask.GetMask(playerName));
+			RaycastHit2D hit = Physics2D.Raycast (rayStartPoint, Vector2.left, 0.6f, layerMask);
+			if (hit != null && Input.GetKeyDown(inputJump) && hit.normal.y < angleAttaque && !onGround && !doubleWalljumpCounter) 
+			{
+				Vector2 v = rbPlayer.velocity;
+				v.y = 0f;
+				rbPlayer.velocity = v;
+				rbPlayer.velocity = new Vector2 (rbPlayer.velocity.x, jumpForce);
+				rbPlayer.AddForce (hit.normal * speed / wallJumpReduction, ForceMode2D.Force);
+				//doubleWalljumpCounter = true;
+				//source.PlayOneShot (jumpSound, 1.0f);
+				break;
+			}
+
+			h += 0.33f;
+		}
+	}*/
 }
