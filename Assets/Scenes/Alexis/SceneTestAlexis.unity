@@ -144,13 +144,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44d47dda007a7a2428aabde3a4dbc2c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isWarrior: 0
+  isMage: 0
+  isThief: 1
+  warriorPosition: {fileID: 0}
+  thiefPosition: {fileID: 0}
   inputHorizontal: Horizontal3
-  inputJump: joystick 3 button 3
+  inputJump: joystick 3 button 0
   playerName: LittlePlayer
   onGround: 1
   speed: 10000
   jumpForce: 10
-  isThief: 1
   angleAttaque: 0.5
   wallJumpReduction: 10
 --- !u!61 &145753336
@@ -1588,13 +1592,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44d47dda007a7a2428aabde3a4dbc2c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isWarrior: 1
+  isMage: 0
+  isThief: 0
+  warriorPosition: {fileID: 0}
+  thiefPosition: {fileID: 0}
   inputHorizontal: Horizontal
-  inputJump: joystick 1 button 3
+  inputJump: joystick 1 button 0
   playerName: BigPlayer
   onGround: 1
   speed: 10000
   jumpForce: 10
-  isThief: 0
   angleAttaque: 0.5
   wallJumpReduction: 0
 --- !u!95 &1326584504
@@ -2239,13 +2247,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44d47dda007a7a2428aabde3a4dbc2c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isWarrior: 0
+  isMage: 1
+  isThief: 0
+  warriorPosition: {fileID: 1326584501}
+  thiefPosition: {fileID: 145753339}
   inputHorizontal: Horizontal2
-  inputJump: joystick 2 button 3
+  inputJump: joystick 2 button 0
   playerName: MediumPlayer
   onGround: 1
   speed: 10000
   jumpForce: 10
-  isThief: 0
   angleAttaque: 0.5
   wallJumpReduction: 0
 --- !u!61 &1809642127
