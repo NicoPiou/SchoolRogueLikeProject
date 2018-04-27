@@ -10,6 +10,8 @@ public class PlayerMovement : MonoBehaviour {
 
 	public Transform warriorPosition;
 	public Transform thiefPosition;
+	public GameObject shield;
+	private bool isShielding;
 
 	private Animator animator;
 
@@ -57,11 +59,19 @@ public class PlayerMovement : MonoBehaviour {
 			Swapping ();
 		}
 
+		if (isWarrior) 
+		{
+			Shielding ();
+		}
+
 	}
 
 	void FixedUpdate()
 	{
-		Moving ();
+		if (!isShielding) 
+		{
+			Moving ();
+		}
 	}
 
 	void GroundChecking()
@@ -178,6 +188,22 @@ public class PlayerMovement : MonoBehaviour {
 			Debug.Log ("swap Thief");
 			transform.position = new Vector3 (thiefPosition.position.x, thiefPosition.position.y, thiefPosition.position.z);
 			thiefPosition.position = new Vector3 (myPos.x, myPos.y, myPos.z);
+		}
+	}
+
+	void Shielding ()
+	{
+		if (Input.GetKey ("joystick 1 button 1")) 
+		{
+			shield.SetActive(true);
+			isShielding = true;
+			animator.SetBool ("Shielding", true);
+		} 
+		else 
+		{
+			shield.SetActive(false);
+			isShielding = false;
+			animator.SetBool ("Shielding", false);
 		}
 	}
 }
