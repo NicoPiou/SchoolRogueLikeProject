@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
 
+	public bool isWarrior;
+	public bool isMage;
+	public bool isThief;
+
+	public Transform warriorPosition;
+	public Transform thiefPosition;
+
 	private Animator animator;
 
 	public string inputHorizontal;
@@ -19,7 +26,6 @@ public class PlayerMovement : MonoBehaviour {
 	public float jumpForce;
 	private int jumpCounter = 2;
 
-	public bool isThief;
 	private bool doubleWalljumpCounter;
 	[Range (0.0f, 1.0f)] public float angleAttaque = 0.5f;
 	public float wallJumpReduction;
@@ -45,6 +51,12 @@ public class PlayerMovement : MonoBehaviour {
 		{
 			Jumping ();
 		}
+
+		if (isMage)
+		{
+			Swapping ();
+		}
+
 	}
 
 	void FixedUpdate()
@@ -149,52 +161,23 @@ public class PlayerMovement : MonoBehaviour {
 		}
 	}
 
-	/*private void WallJumping()
+	void Swapping () 
 	{
-		Vector2 physicsCentre = new Vector2 (this.transform.position.x + this.GetComponent<BoxCollider2D> ().offset.x, this.transform.position.y + this.GetComponent<BoxCollider2D> ().offset.y);
+		Debug.Log ("can swap");
+		Vector3 myPos = transform.position;
 
-		float j = -1f;
-		for (int i = 0; i < 7; i++) 
+		if (Input.GetKeyDown("joystick 2 button 1")) 
 		{
-			Vector2 rayStartPoint = physicsCentre + new Vector2 (0f, j * 0.49f);
-			Debug.DrawRay (rayStartPoint, Vector2.right*0.6f, Color.red, 0.25f);
-			int layerMask = ~(LayerMask.GetMask(playerName));
-			RaycastHit2D hit = Physics2D.Raycast (rayStartPoint, Vector2.right, 0.6f, layerMask);
-			if (hit != null && Input.GetKeyDown(inputJump) && hit.normal.y < angleAttaque && !onGround && !doubleWalljumpCounter) 
-			{
-				Vector2 v = rbPlayer.velocity;
-				v.y = 0f;
-				rbPlayer.velocity = v;
-				rbPlayer.velocity = new Vector2 (rbPlayer.velocity.x, jumpForce);
-				rbPlayer.AddForce (hit.normal * speed / wallJumpReduction, ForceMode2D.Force);
-				//doubleWalljumpCounter = true;
-				//source.PlayOneShot (jumpSound, 1.0f);
-				break;
-			}
-
-			j += 0.33f;
+			Debug.Log ("swap Warrior");
+			transform.position = new Vector3 (warriorPosition.position.x, warriorPosition.position.y, warriorPosition.position.z);
+			warriorPosition.position = new Vector3 (myPos.x, myPos.y, myPos.z);
 		}
 
-		float h = -1f;
-		for (int i = 0; i < 7; i++) 
+		if (Input.GetKeyDown("joystick 2 button 3")) 
 		{
-			Vector2 rayStartPoint = physicsCentre + new Vector2 (0f, h * 0.49f);
-			Debug.DrawRay (rayStartPoint, Vector2.left*0.6f, Color.red, 0.25f);
-			int layerMask = ~(LayerMask.GetMask(playerName));
-			RaycastHit2D hit = Physics2D.Raycast (rayStartPoint, Vector2.left, 0.6f, layerMask);
-			if (hit != null && Input.GetKeyDown(inputJump) && hit.normal.y < angleAttaque && !onGround && !doubleWalljumpCounter) 
-			{
-				Vector2 v = rbPlayer.velocity;
-				v.y = 0f;
-				rbPlayer.velocity = v;
-				rbPlayer.velocity = new Vector2 (rbPlayer.velocity.x, jumpForce);
-				rbPlayer.AddForce (hit.normal * speed / wallJumpReduction, ForceMode2D.Force);
-				//doubleWalljumpCounter = true;
-				//source.PlayOneShot (jumpSound, 1.0f);
-				break;
-			}
-
-			h += 0.33f;
+			Debug.Log ("swap Thief");
+			transform.position = new Vector3 (thiefPosition.position.x, thiefPosition.position.y, thiefPosition.position.z);
+			thiefPosition.position = new Vector3 (myPos.x, myPos.y, myPos.z);
 		}
-	}*/
+	}
 }
